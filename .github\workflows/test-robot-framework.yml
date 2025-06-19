@@ -1,0 +1,28 @@
+​name: Testes com Robot Framework API
+
+# regra de execução, roda toda vez que tiver um pushh ou pull abertos
+on: [push, pull_request]
+
+jobs:
+
+  test:
+    # será rodado no lix ultima versão
+    runs-on: ubuntu-latest
+
+    # "uses" já são as actions sendo usadas
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Robot Framework
+      uses: joonvena/robotframework-docker-action@v1.0
+      with:
+        robot_reports_dir: 'reports'
+
+    # ultima action sendo necessaria para salvas o report, pois toda vez que executa, tudo é apagado
+    - name: Upload test results
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: robot-reports
+        path: reports
