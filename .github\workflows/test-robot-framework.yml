@@ -4,7 +4,6 @@
 on: [push, pull_request]
 
 jobs:
-
   test:
     # será rodado no lix ultima versão
     runs-on: ubuntu-latest
