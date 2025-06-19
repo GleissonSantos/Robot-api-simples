@@ -1,12 +1,13 @@
 ​name: Testes com Robot Framework API
 
 # regra de execução, roda toda vez que tiver um pushh ou pull abertos
-on: [push, pull_request]
+on: 
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
   test:
-    # será rodado no lix ultima versão
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #será rodado no lix ultima versão
 
     # "uses" já são as actions sendo usadas
     steps:
@@ -21,7 +22,8 @@ jobs:
     # ultima action sendo necessaria para salvas o report, pois toda vez que executa, tudo é apagado
     - name: Upload test results
       uses: actions/upload-artifact@v2
-      if: always()
+      if: ${{ !cancelled() }}
       with:
         name: robot-reports
         path: reports
+        retention-days: 1
